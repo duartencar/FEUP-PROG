@@ -5,60 +5,83 @@
 #include <iomanip>
 #include <sstream>
 #include <string.h>
+#include <stdlib.h>
 #include "text_manipulation.h"
+#include "menus.h"
 
 using namespace std;
 
 int main(void)
-{
+{ /**************VARIABLES DECLARATION***************/
+
 	ifstream lines_file, drivers_file;
+
+	ofstream lines_new, drivers_new;
 
 	string input;
 
-	stringstream ss;
-
-  vector<string> line_tok;
-
 	vector<line> traffic_network;
 
-	int n_lines = 0;
+	vector<driver> drivers_data;
+
+	int answer = 0;
+
+	/**************VARIABLES DECLARATION***************/
+	system("clear"); //cls in windows
 
 	lines_file.open("linhas.txt");
+
 	drivers_file.open("condutores.txt");
 
 	if (!lines_file.is_open())
 	{
-		cerr << "File linhas.txt not found !\n";
+		cout << "File linhas.txt not found !\n";
 		return 1;
 	}
 
 	if (!drivers_file.is_open())
 	{
-		cerr << "File condutores.txt not found !\n";
+		cout << "File condutores.txt not found !\n";
 		return 1;
 	}
 
+	/*Load lines*/
 	while (getline(lines_file, input))
+		insert_to_network(input, traffic_network, (int)traffic_network.size());
+
+	/*Load drivers*/
+	while (getline(drivers_file, input))
+		insert_to_drivers_data(input, drivers_data, (int)drivers_data.size());
+
+	lines_file.close();
+
+	drivers_file.close();
+
+	while (answer != 9)
 	{
-    line_tok = tokenizer(input, ";");
+		main_menu();
 
-		traffic_network.push_back(line());
+		cin >> answer;
 
-		traffic_network[n_lines].identifier = stoi(line_tok[0]);
-
-		traffic_network[n_lines].freq = stoi(line_tok[1]);
-
-		traffic_network[n_lines].stops = tokenizer(line_tok[2], ",");
-
-		traffic_network[n_lines].times = int_tokenizer(line_tok[3], ",");
-
-		n_lines++;
+		switch (answer)
+		{
+		case 1:
+			show_all_lines(traffic_network);
+			system("clear"); //cls in windows
+			break;
+		case 2:
+			show_all_drivers(drivers_data);
+			system("clear"); //cls in windows
+			break;
+		case 3:
+			manage_drivers(drivers_data);
+			break;
+		case 9:
+			continue;
+		}
 	}
 
-	for(int i = 0; i < n_lines; i++)
-		line_info(traffic_network[i]);
-
-	cout << endl;
+	system("clear"); //cls in windows
 
 	return 0;
 }
