@@ -58,6 +58,10 @@ void main_menu();
 
 string get_line_to_drivers_file(driver a);
 
+int search_for_id(vector<driver> &a, int id);
+
+void edit_drivers_data(vector<driver> &a);
+
 void update_drivers_file (vector<driver> &a);
 
 void manage_drivers(vector<driver> &v_driver);

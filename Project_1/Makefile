@@ -4,7 +4,7 @@ COMPILER_TYPE= gnu
 CXX = g++
 CXXFLAGS = -std=c++0x -Wall
 
-PROG = sempre.out
+PROG = semprearolar
 
 SOURCES = $(wildcard *.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)

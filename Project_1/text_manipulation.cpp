@@ -15,7 +15,7 @@ string get_token(string to_token, size_t begin, size_t end)
 
 vector<string> tokenizer (string to_token, string token)
 {
-	size_t found, last_found = -1;
+  size_t found, last_found = -1;
 
 	vector<string> tokens;
 
@@ -27,7 +27,7 @@ vector<string> tokenizer (string to_token, string token)
 
 	tokens.push_back(get_token(to_token, last_found + 1, to_token.size()));
 
-	return tokens;
+return tokens;
 }
 
 vector<int> int_tokenizer (string to_token, string token)
@@ -137,13 +137,23 @@ void line_info (line a)
 
 void driver_info(driver a)
 {
-	cout << a.name << setw(15) << a.identifier << endl << endl;
+  char output[75];
 
-	cout << "Horas por turno: " << setw(15) << a.hours_p_day << endl;
+	sprintf(output,"%-25s\tID:%d\n",a.name.c_str(), a.identifier);
 
-	cout << "Horas por semana: " << setw(15) << a.hours_p_week << endl;
+  printf("%s", output);
 
-	cout << "Horas de descanso: " << setw(13) << a.rest_hours << endl << endl;
+	sprintf(output,"%-25s\t%d\n","Horas por turno: ", a.hours_p_day);
+
+  printf("%s", output);
+
+	sprintf(output,"%-25s\t%d\n","Horas por semana: " ,a.hours_p_week);
+
+  printf("%s", output);
+
+	sprintf(output,"%-25s\t%d\n\n","Horas de descanso: " , a.rest_hours);
+
+  printf("%s", output);
 }
 
 void show_all_lines(vector<line> a)
@@ -184,11 +194,105 @@ string get_line_to_drivers_file(driver a)
 {
   char to_return[256];
 
-  sprintf(to_return,"%d ; %s ; %d ; %d ; %d\n",a.identifier,a.name.c_str(), a.hours_p_day, a.hours_p_week, a.rest_hours);
+  sprintf(to_return,"%d;%s;%d;%d;%d\n",a.identifier,a.name.c_str(), a.hours_p_day, a.hours_p_week, a.rest_hours);
 
   string returner(to_return);
 
   return returner;
+}
+
+int search_for_id(vector<driver> &a, int id) //returns the indice of the driver with an ID
+{
+  for(int i = 0; i < (int)a.size(); i++)
+  {
+    if(a[i].identifier == id)
+      return i;
+  }
+
+  return -1;
+}
+
+void edit_drivers_data(vector<driver> &a)
+{
+  int x;
+
+  char c = 'o';
+
+  string resposta;
+
+  vector<string> resp;
+
+  system("clear");
+
+  for(int i = 0; i < (int)a.size(); i++)
+    cout << a[i].identifier << " - " << a[i].name << endl;
+
+  cout << "Insira o ID do condutor que pretende alterar: ";
+
+  cin >> x;
+
+  x = search_for_id(a, x);
+
+  if(x == -1) //in case it hasn t found any driver with the ID inserted by the user
+  {
+    while(c != 'y' && c != 'Y' && c!= 'n' && c != 'N')
+    {
+      cout << "Nao foi encontrado nenhum condutor, pretende inserir um? (y/n)\n";
+
+      cin >> c;
+    }
+
+    if(c == 'y' || c == 'Y')
+      verbose_inserte_to_drivers_data(a);
+    else
+      return;
+
+    return;
+  }
+
+  system("clear");
+
+  driver_info(a[x]);
+
+  cout << "1 - Nome\n2 - Identificador\n3 - Horas que pode trabalhar por dia\n4 - Horas que pode trabalhar por semana\n5 - Horas de descanso\n";
+
+  cout << "O que pretende alterar? <Resp (espaco) nova_informacao\n";
+
+  cin.ignore();
+
+  getline(cin, resposta);
+
+  resp = tokenizer(resposta, " ");
+
+  switch(stoi(resp[0])) //opcao que o utilizador selecionou
+  {
+    case 1:
+      a[x].name.clear();
+      for(int i = 1; i < (int)resp.size(); i++)
+      {
+        a[x].name.append(resp[i]);
+        a[x].name.append(" ");
+      }
+      break;
+    case 2:
+      if(search_for_id(a, stoi(resp[1])) == -1)
+        a[x].identifier = stoi(resp[1]);
+      else
+        printf("Esse identificador ja existe!\n");
+      break;
+    case 3:
+      a[x].hours_p_day = stoi(resp[1]);
+      break;
+    case 4:
+      a[x].hours_p_week = stoi(resp[1]);
+      break;
+    case 5:
+      a[x].rest_hours = stoi(resp[1]);
+      break;
+    default:
+      printf("Opcao invalida\n");
+      break;
+  }
 }
 
 void update_drivers_file (vector<driver> &a)
@@ -221,7 +325,7 @@ void manage_drivers(vector<driver> &v_driver)
   switch(resp)
   {
     case 1:
-
+      edit_drivers_data(v_driver);
       break;
     case 2:
       verbose_inserte_to_drivers_data(v_driver);
