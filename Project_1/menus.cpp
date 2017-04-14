@@ -35,3 +35,14 @@ void manage_drivers_menu()
 
 	cout << "3 - Leave\n";
 }
+
+void manage_lines_menu()
+{
+	system("clear");
+
+	cout << "1 - Edit an existing line\n";
+
+	cout << "2 - Create new line\n";
+
+	cout << "3 - Leave\n";
+}

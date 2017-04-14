@@ -1,3 +1,6 @@
+#ifndef _TEXT_MANIPULATION_H_
+#define _TEXT_MANIPULATION_H_
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -8,6 +11,7 @@
 #include <cstdio>
 #include <fstream>
 #include "menus.h"
+#include "crew.h"
 
 using namespace std;
 
@@ -25,45 +29,20 @@ typedef struct
 	vector<int> lines;
 } stop;
 
-typedef struct
-{
-	string name;
-	int identifier;
-	int hours_p_day;
-	int hours_p_week;
-	int rest_hours;
-} driver;
-
 string get_token(string to_token, size_t begin, size_t end);
 
 vector<string> tokenizer (string to_token, string token);
 
 vector<int> int_tokenizer (string to_token, string token);
 
-void insert_to_network(string read, vector<line> &v_line, int size);
+void insert_to_network(string read, vector<line> &v_line, int size); //network
 
-void insert_to_drivers_data(string read, vector<driver> &v_driver, int size);
+void line_info (line a);  //network
 
-void verbose_inserte_to_drivers_data(vector<driver> &v_driver);
+void show_all_lines(vector<line> a); //network
 
-void line_info (line a);
+int search_for_id(vector<driver> &a, int id); //both
 
-void driver_info(driver a);
+void manage_lines(vector<line> &v_line);
 
-void show_all_lines(vector<line> a);
-
-void show_all_drivers(vector<driver> a);
-
-void main_menu();
-
-string get_line_to_drivers_file(driver a);
-
-int search_for_id(vector<driver> &a, int id);
-
-void edit_drivers_data(vector<driver> &a);
-
-void update_drivers_file (vector<driver> &a);
-
-void manage_drivers(vector<driver> &v_driver);
-
-void manage_drivers_menu();
+#endif

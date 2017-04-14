@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "text_manipulation.h"
 #include "menus.h"
+#include "crew.h"
 
 using namespace std;
 
@@ -75,7 +76,12 @@ int main(void)
 			break;
 		case 3:
 			manage_drivers(drivers_data);
+			system("clear"); //cls in windows
 			break;
+		case 4:
+
+			break;
+
 		case 9:
 			continue;
 		}
