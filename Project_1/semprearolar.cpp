@@ -9,6 +9,7 @@
 #include "text_manipulation.h"
 #include "menus.h"
 #include "crew.h"
+#include "network.h"
 
 using namespace std;
 
