@@ -80,7 +80,7 @@ int main(void)
 			system("clear"); //cls in windows
 			break;
 		case 4:
-
+			manage_lines(traffic_network);
 			break;
 
 		case 9:
