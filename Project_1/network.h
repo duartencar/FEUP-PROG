@@ -41,7 +41,11 @@ string prepare_line_for_insert (int identifier, int freq, vector<string> &stops,
 
 void verbose_insert_to_network(vector<line> &v_line);
 
-void update_drivers_file (vector<driver> &a);
+string get_line_to_lines_file (line a);
+
+void edit_network_data(vector<line> &a);
+
+void update_lines_file (vector<line> &a);
 
 void manage_lines(vector<line> &v_line);
 

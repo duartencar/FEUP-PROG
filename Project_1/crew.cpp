@@ -73,7 +73,7 @@ void driver_info(driver a)
 {
   char output[75];
 
-	sprintf(output,"%-25s\tID:%d\n",a.name.c_str(), a.identifier);
+	sprintf(output,"%-25s\tID:%d\n\n",a.name.c_str(), a.identifier);
 
   printf("%s", output);
 
@@ -156,29 +156,23 @@ void edit_drivers_data(vector<driver> &a)
     return;
   }
 
-  system("clear");
+	system("clear");
 
-  driver_info(a[x]);
+	driver_info(a[x]);
 
-  cout << "1 - Nome\n2 - Identificador\n3 - Horas que pode trabalhar por dia\n4 - Horas que pode trabalhar por semana\n5 - Horas de descanso\n";
-
-  cout << "O que pretende alterar? <Resp (espaco) nova_informacao\n";
+  edit_driver_menu();
 
   cin.ignore();
 
   getline(cin, resposta);
 
-  resp = tokenizer(resposta, " ");
+  resp = tokenizer(resposta, "-");
 
   switch(stoi(resp[0])) //opcao que o utilizador selecionou
   {
     case 1:
       a[x].name.clear();
-      for(int i = 1; i < (int)resp.size(); i++)
-      {
-        a[x].name.append(resp[i]);
-        a[x].name.append(" ");
-      }
+      a[x].name.assign(resp[1]);
       break;
     case 2:
       if(search_for_id(a, stoi(resp[1])) == -1)

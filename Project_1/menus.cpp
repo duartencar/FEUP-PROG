@@ -46,3 +46,20 @@ void manage_lines_menu()
 
 	cout << "3 - Leave\n";
 }
+
+void edit_driver_menu()
+{
+	cout << "1 - Nome\n2 - Identificador\n3 - Horas que pode trabalhar por dia\n4 - Horas que pode trabalhar por semana\n5 - Horas de descanso\n";
+
+  cout << "O que pretende alterar? <Resp (espaco) nova_informacao\n";
+}
+
+void edit_line_menu()
+{
+	cout << "1 - Identificador\n";
+	cout << "2 - Frequencia de partida\n";
+	cout << "3 - Paragens\n";
+	cout << "4 - Tempos entre paragens\n";
+
+	cout << "O que pretende alterar? <Resp ('-') nova_informacao, separada por '-' caso seja necessario\n";
+}

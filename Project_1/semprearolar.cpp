@@ -81,6 +81,7 @@ int main(void)
 			break;
 		case 4:
 			manage_lines(traffic_network);
+			system("clear");
 			break;
 
 		case 9:
