@@ -7,9 +7,8 @@
 #include <stdlib.h>
 #include <cstdio>
 #include <fstream>
+#include "semprearolar.h"
 #include "text_manipulation.h"
-#include "menus.h"
-#include "crew.h"
 #include "network.h"
 
 using namespace std;
@@ -33,7 +32,7 @@ void insert_to_network(string read, vector<line> &v_line, int size)
 
 void line_info (line a)
 {
-  int sum = 0;
+	int sum = 0;
 
   cout << endl << "Linha -> " << a.identifier << endl;
 
@@ -42,12 +41,12 @@ void line_info (line a)
   cout << "Passa em:\n";
 
   for(int i = 0; i < (int)a.stops.size(); i++)
-    cout << "\t" << a.stops[i] << endl;
+    printf("\t%-2d - %s\n", i+1, a.stops[i].c_str());
 
   for(int i = 0; i < (int)a.times.size(); i++)
     sum += a.times[i];
 
-  cout << "Tempo total da viagem e de " << sum << " minutos\n" << endl << endl;
+	cout << "Tempo total da viagem e de " << sum << " minutos\n" << endl << endl;
 }
 
 void show_all_lines(vector<line> a)
@@ -235,7 +234,7 @@ void edit_network_data(vector<line> &a)
 
 	vector<int> res;
 
-		printf("Autocarro\t   Origem\t\t         Fim\n\n");
+	printf("Autocarro\t   Origem\t\t         Fim\n\n");
 	for(int i = 0; i < (int)a.size(); i++)
 		printf("    %d\t\t%-20s-     %-20s\n",a[i].identifier, a[i].stops[0].c_str(), a[i].stops[a[i].stops.size() - 1].c_str());
 
@@ -368,4 +367,267 @@ void manage_lines(vector<line> &v_line)
 		}
 	}
 	update_lines_file(v_line);
+}
+
+void print_header (line &a, char *lineToPrint, int stop, int direction)
+{
+	memset(lineToPrint, 0, 1000);
+
+	switch(direction)
+	{
+		case FOWARD:
+			for(int i = stop; i < (int)a.stops.size(); i++)
+				sprintf(lineToPrint,"%s%-20s\t",lineToPrint,a.stops[i].c_str());
+			lineToPrint[999] = '\0';
+			printf("%s\n", lineToPrint);
+			break;
+		case BACKWARD:
+			for(int i = stop; i > -1; i--)
+				sprintf(lineToPrint,"%s%-20s\t",lineToPrint,a.stops[i].c_str());
+			lineToPrint[999] = '\0';
+			printf("%s\n", lineToPrint);
+			break;
+	}
+
+	memset(lineToPrint, 0, 1000);
+}
+
+int time_until_stop (line &a, int stop, int direction)
+{
+	int total = 0;
+
+	switch(direction)
+	{
+		case FOWARD:
+			if(stop == 0)
+				return 0;
+			for(int i = 0; i < stop; i++)
+				total = total + a.times[i - 1] * 60;
+			break;
+		case BACKWARD:
+			if(stop == 0)
+				return 0;
+			for(int i = stop; i > 0; i--)
+				total = total + a.times[i - 1] * 60;
+			break;
+	}
+
+	return total;
+}
+
+char* get_hour_format(int tim)
+{
+	int hours, min;
+
+	char *hour;
+
+	hour = (char *)malloc(6 * sizeof(char));
+
+	hours = (int)(tim / 3600);
+
+	min = (tim - hours*3600) / 60;
+
+	sprintf(hour,"%02d:%02d", hours % 24, min % 60);
+
+	hour[5] = '\0';
+
+	return hour;
+}
+
+void showTimeTable(line &a, int stop)
+{
+	int firstBus = START_HOUR;
+	char resp;
+	vector<char*> horas;
+
+	char line[1000];
+
+	while(resp != 'y' && resp != 'Y')
+	{
+	/*Print first direction*/
+		system("clear");
+
+		printf("\t\t\t\tSENTIDO: %s -> %s\n\n",a.stops[stop].c_str(), a.stops[(int)a.stops.size() - 1].c_str());
+
+		print_header(a, line, stop, FOWARD);
+
+		firstBus = firstBus + time_until_stop(a, stop, FOWARD);
+
+		for(int j = firstBus; j <= END_HOUR; j = j + a.freq * 60)
+		{
+			for(int i = stop; i < (int)a.stops.size(); i++)
+				printf("%-20s\t", get_hour_format(j + time_until_stop(a, i + 1, FOWARD)));
+
+			cout << endl;
+		}
+
+		cout << endl << endl << endl;
+
+	/*Print second direction*/
+		printf("\t\t\t\tSENTIDO: %s -> %s\n\n",a.stops[stop].c_str(), a.stops[0].c_str());
+
+		print_header(a, line, stop, BACKWARD);
+
+		firstBus = START_HOUR + 2 * time_until_stop(a, (int)a.stops.size(), FOWARD);
+
+		for(int j = firstBus; j <= END_HOUR; j = j + a.freq * 60)
+		{
+			for(int i = stop; i > -1; i--)
+				horas.push_back(get_hour_format(j - time_until_stop(a, i + 1 , FOWARD)));
+
+			for(int i = 0; i < (int)horas.size(); i++)
+				printf("%-20s\t", horas[i]);
+
+			cout << endl;
+
+			horas.clear();
+		}
+
+		cout << endl << endl << "pretende sair? (y/n)\n";
+
+		cin >> resp;
+	}
+}
+
+void all_showTimeTable(line &a)
+{
+	int firstBus = START_HOUR;
+	char resp;
+	vector<char*> horas;
+
+	char line[1000];
+
+	while(resp != 'y' && resp != 'Y')
+	{
+	/*Print first direction*/
+		system("clear");
+
+		printf("\t\t\t\tSENTIDO: %s -> %s\n\n",a.stops[0].c_str(), a.stops[(int)a.stops.size() - 1].c_str());
+
+		print_header(a, line, 0, FOWARD);
+
+		firstBus = firstBus + time_until_stop(a, 0, FOWARD);
+
+		for(int j = firstBus; j <= END_HOUR; j = j + a.freq * 60)
+		{
+			for(int i = 0; i < (int)a.stops.size(); i++)
+				printf("%-20s\t", get_hour_format(j + time_until_stop(a, i + 1, FOWARD)));
+
+			cout << endl;
+		}
+
+		cout << endl << endl << endl;
+
+	/*Print second direction*/
+		printf("\t\t\t\tSENTIDO: %s -> %s\n\n",a.stops[(int)a.stops.size() - 1].c_str(), a.stops[0].c_str());
+
+		print_header(a, line, (int)a.stops.size() - 1, BACKWARD);
+
+		firstBus = START_HOUR + 2 * time_until_stop(a, (int)a.stops.size(), FOWARD);
+
+		for(int j = firstBus; j <= END_HOUR; j = j + a.freq * 60)
+		{
+			for(int i = (int)a.stops.size() - 1; i > -1; i--)
+				horas.push_back(get_hour_format(j - time_until_stop(a, i + 1 , FOWARD)));
+
+			for(int i = 0; i < (int)horas.size(); i++)
+				printf("%-20s\t", horas[i]);
+
+			cout << endl;
+
+			horas.clear();
+		}
+
+		cout << endl << endl << "pretende sair? (y/n)\n";
+
+		cin >> resp;
+	}
+}
+void all_TimeTable(vector<line> &a)
+{
+	int ide = -1;
+
+	system("clear");
+
+	printf("Autocarro\t   Origem\t\t         Fim\n\n");
+
+	for(int i = 0; i < (int)a.size(); i++)
+		printf("    %d\t\t%-20s-     %-20s\n",a[i].identifier, a[i].stops[0].c_str(), a[i].stops[a[i].stops.size() - 1].c_str());
+
+	while(ide < 0)
+	{
+		cout << "Insira o identificador da linha: ";
+
+		cin >> ide;
+
+		ide = search_for_line_id(a, ide);
+
+		if(ide == -1)
+			cout << "Essa linha nao existe!\n";
+	}
+
+	all_showTimeTable(a[ide]);
+}
+
+void stop_TimeTable(vector<line> &a)
+{
+	int stop = -1, ide = -1;
+
+	system("clear");
+
+	printf("Autocarro\t   Origem\t\t         Fim\n\n");
+
+	for(int i = 0; i < (int)a.size(); i++)
+		printf("    %d\t\t%-20s-     %-20s\n",a[i].identifier, a[i].stops[0].c_str(), a[i].stops[a[i].stops.size() - 1].c_str());
+
+	while(ide < 0)
+	{
+		cout << "Insira o identificador da linha: ";
+
+		cin >> ide;
+
+		ide = search_for_line_id(a, ide);
+
+		if(ide == -1)
+			cout << "Essa linha nao existe!\n";
+	}
+
+	while(stop < 0 || stop > (int)a[ide].stops.size())
+	{
+		system("clear");
+
+		line_info(a[ide]);
+
+		cout << "Insira o numero da paragem que pretende: ";;
+
+		cin >> stop;
+	}
+
+	showTimeTable(a[ide], stop - 1);
+}
+
+void timeTable (vector<line> &v_line)
+{
+	int resp = 0;
+
+	while(resp < 1 || resp > 3)
+	{
+		TimeTable_menu();
+
+		cin >> resp;
+
+		switch(resp)
+		{
+			case 1:
+				all_TimeTable(v_line);
+				system("clear");
+				break;
+			case 2:
+				stop_TimeTable(v_line);
+				system("clear");
+				break;
+			case 3:
+				break;
+		}
+	}
 }

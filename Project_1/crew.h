@@ -1,18 +1,6 @@
 #ifndef _CREW_H_
 #define _CREW_H_
 
-#include <vector>
-#include <string>
-#include <iostream>
-#include <iomanip>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <cstdio>
-#include <fstream>
-#include "menus.h"
-#include "text_manipulation.h"
-
 using namespace std;
 
 typedef struct
@@ -23,6 +11,8 @@ typedef struct
 	int hours_p_week;
 	int rest_hours;
 } driver;
+
+int search_for_driver_id(vector<driver> &a, int id);
 
 void insert_to_drivers_data(string read, vector<driver> &v_driver, int size); //crew
 

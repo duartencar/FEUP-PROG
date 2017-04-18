@@ -1,6 +1,14 @@
+#include <vector>
+#include <string>
+#include <iostream>
+#include <iomanip>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <cstdio>
+#include <fstream>
+#include "semprearolar.h"
 #include "text_manipulation.h"
-#include "menus.h"
-#include "crew.h"
 
 using namespace std;
 
@@ -42,15 +50,4 @@ vector<int> int_tokenizer (string to_token, string token)
     to_return.push_back(stoi(to_convert[i]));
 
   return to_return;
-}
-
-int search_for_id(vector<driver> &a, int id) //returns the indice of the driver with an ID
-{
-  for(int i = 0; i < (int)a.size(); i++)
-  {
-    if(a[i].identifier == id)
-      return i;
-  }
-
-  return -1;
 }

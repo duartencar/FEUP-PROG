@@ -7,11 +7,22 @@
 #include <stdlib.h>
 #include <cstdio>
 #include <fstream>
+#include "semprearolar.h"
 #include "text_manipulation.h"
-#include "menus.h"
 #include "crew.h"
 
 using namespace std;
+
+int search_for_driver_id(vector<driver> &a, int id)
+{
+	for(int i = 0; i < (int)a.size(); i++)
+	{
+		if(a[i].identifier == id)
+			return i;
+	}
+
+	return -1;
+}
 
 void insert_to_drivers_data(string read, vector<driver> &v_driver, int size)
 {
@@ -137,7 +148,7 @@ void edit_drivers_data(vector<driver> &a)
 
   cin >> x;
 
-  x = search_for_id(a, x);
+  x = search_for_driver_id(a, x);
 
   if(x == -1) //in case it hasn t found any driver with the ID inserted by the user
   {
@@ -175,7 +186,7 @@ void edit_drivers_data(vector<driver> &a)
       a[x].name.assign(resp[1]);
       break;
     case 2:
-      if(search_for_id(a, stoi(resp[1])) == -1)
+      if(search_for_driver_id(a, stoi(resp[1])) == -1)
         a[x].identifier = stoi(resp[1]);
       else
         printf("Esse identificador ja existe!\n");

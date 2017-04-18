@@ -7,11 +7,17 @@
 #include <string.h>
 #include <stdlib.h>
 #include "text_manipulation.h"
-#include "menus.h"
 #include "crew.h"
 #include "network.h"
 
 using namespace std;
+
+void main_menu();
+void manage_drivers_menu();
+void manage_lines_menu();
+void edit_driver_menu();
+void edit_line_menu();
+void TimeTable_menu();
 
 int main(void)
 { /**************VARIABLES DECLARATION***************/
@@ -59,7 +65,7 @@ int main(void)
 
 	drivers_file.close();
 
-	while (answer != 9)
+	while (answer != 8)
 	{
 		main_menu();
 
@@ -83,8 +89,12 @@ int main(void)
 			manage_lines(traffic_network);
 			system("clear");
 			break;
+		case 5:
+			timeTable(traffic_network);
+			system("clear");
+			break;
 
-		case 9:
+		case 8:
 			continue;
 		}
 	}
@@ -92,4 +102,75 @@ int main(void)
 	system("clear"); //cls in windows
 
 	return 0;
+}
+
+void main_menu()
+{
+	cout << internal << setw(30) << "Semprarrolar - Transportadora" << endl;
+
+	cout << "1 - Show all lines\n";
+
+	cout << "2 - Show all drivers\n";
+
+	cout << "3 - Manage drivers\n";
+
+	cout << "4 - Manage lines\n";
+
+	cout << "5 - Horários\n";
+
+	cout << "6 - Plan trip\n";
+
+	cout << "7 - Show necessary drivers for a line workload\n";
+
+	cout << "8 - Leave\n";
+}
+
+void manage_drivers_menu()
+{
+	system("clear");
+
+	cout << "1 - Edit an existing driver\n";
+
+	cout << "2 - Create new driver\n";
+
+	cout << "3 - Leave\n";
+}
+
+void manage_lines_menu()
+{
+	system("clear");
+
+	cout << "1 - Edit an existing line\n";
+
+	cout << "2 - Create new line\n";
+
+	cout << "3 - Leave\n";
+}
+
+void edit_driver_menu()
+{
+	cout << "1 - Nome\n2 - Identificador\n3 - Horas que pode trabalhar por dia\n4 - Horas que pode trabalhar por semana\n5 - Horas de descanso\n";
+
+  cout << "O que pretende alterar? <Resp (espaco) nova_informacao\n";
+}
+
+void edit_line_menu()
+{
+	cout << "1 - Identificador\n";
+	cout << "2 - Frequencia de partida\n";
+	cout << "3 - Paragens\n";
+	cout << "4 - Tempos entre paragens\n";
+
+	cout << "O que pretende alterar? <Resp ('-') nova_informacao, separada por '-' caso seja necessario\n";
+}
+
+void TimeTable_menu()
+{
+	system("clear");
+
+	cout << "1 - Ver horário duma linha inteira\n";
+
+	cout << "2 - Ver horário duma paragem\n";
+
+	cout << "3 - Leave\n";
 }
