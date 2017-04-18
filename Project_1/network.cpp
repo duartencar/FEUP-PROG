@@ -13,6 +13,8 @@
 
 using namespace std;
 
+bool alteration;
+
 void insert_to_network(string read, vector<line> &v_line, int size)
 {
 	vector<string> line_tok;
@@ -55,12 +57,12 @@ void show_all_lines(vector<line> a)
 
 	char c = 'n';
 
-	while (c != 'y' && c != 'Y')
+	while (c != 's' && c != 'S')
 	{
 		for (int i = 0; i < (int)a.size(); i++)
 			line_info(a[i]);
 
-		cout << "Leave? (y/n)\n";
+		cout << "Leave? (s/n)\n";
 
 		cin >> c;
 	}
@@ -132,6 +134,7 @@ void verbose_insert_to_network(vector<line> &v_line)
 	if(search_for_line_id(v_line, ide) > 0)
 	{
 		cout << "Esse identificador ja existe!\n";
+		alteration = false;
 		return;
 	}
 
@@ -142,6 +145,7 @@ void verbose_insert_to_network(vector<line> &v_line)
 	if(fre <= 0)
 	{
 		cout << "A frequencia tem de ser maior ou igual a 0\n";
+		alteration = false;
 		return;
 	}
 
@@ -164,6 +168,7 @@ void verbose_insert_to_network(vector<line> &v_line)
 		if(stoi(tim) <= 0)
 		{
 			cout << "Insercao terminada\n";
+			alteration = true;
 			break;
 		}
 
@@ -246,14 +251,14 @@ void edit_network_data(vector<line> &a)
 
 	if(x == -1) //in case it hasn t found any driver with the ID inserted by the user
   {
-    while(c != 'y' && c != 'Y' && c!= 'n' && c != 'N')
+    while(c != 's' && c != 'S' && c!= 'n' && c != 'N')
     {
       cout << "Essa linha nao existe, pretende criar uma nova? (y/n)\n";
 
       cin >> c;
     }
 
-    if(c == 'y' || c == 'Y')
+    if(c == 's' || c == 'S')
       verbose_insert_to_network(a);
     else
       return;
@@ -277,17 +282,22 @@ void edit_network_data(vector<line> &a)
 	{
 		case 1:
 			if(search_for_line_id(a, stoi(resp[1])) == -1)
+			{
 				a[x].identifier = stoi(resp[1]);
+				alteration = true;
+			}
 			else
 				cout << "Esse identificador ja existe!\n";
 			break;
 		case 2:
 			a[x].freq = stoi(resp[1]);
+			alteration = true;
 			break;
 		case 3:
 			if(((int)resp.size() - 1) < 2)
 			{
 				cout << "Tem de inserir pelo menos duas paragens\n";
+				alteration = false;
 				break;
 			}
 			a[x].stops.clear();
@@ -311,19 +321,23 @@ void edit_network_data(vector<line> &a)
 				}
 				a[x].times = res;
 			}
+			alteration = true;
       break;
 		case 4:
 			a[x].times.clear();
 			if(((int)resp.size() - 1) != ((int)a[x].stops.size() - 1))
 			{
 				printf("Tem de inserir %d tempos\n", (int)a[x].stops.size() - 1);
+				alteration = false;
 				break;
 			}
 			for(int i = 1; i < (int)resp.size(); i++)
         a[x].times.push_back(stoi(resp[i]));
+				alteration = true;
       break;
 		default:
 			printf("Opcao invalida\n");
+			alteration = false;
 			break;
 	}
 }
@@ -366,7 +380,12 @@ void manage_lines(vector<line> &v_line)
 				break;
 		}
 	}
-	update_lines_file(v_line);
+	if(alteration)
+	{
+		cout << "Ficheiro atualizado!\n";
+		update_lines_file(v_line);
+		alteration = false;
+	}
 }
 
 void print_header (line &a, char *lineToPrint, int stop, int direction)
@@ -442,7 +461,7 @@ void showTimeTable(line &a, int stop)
 
 	char line[1000];
 
-	while(resp != 'y' && resp != 'Y')
+	while(resp != 's' && resp != 'S')
 	{
 	/*Print first direction*/
 		system("clear");
@@ -483,7 +502,7 @@ void showTimeTable(line &a, int stop)
 			horas.clear();
 		}
 
-		cout << endl << endl << "pretende sair? (y/n)\n";
+		cout << endl << endl << "pretende sair? (s/n)\n";
 
 		cin >> resp;
 	}

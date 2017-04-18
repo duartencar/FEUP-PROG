@@ -43,13 +43,13 @@ int main(void)
 
 	if (!lines_file.is_open())
 	{
-		cout << "File linhas.txt not found !\n";
+		cout << "File linhas.txt nao encontrado !\n";
 		return 1;
 	}
 
 	if (!drivers_file.is_open())
 	{
-		cout << "File condutores.txt not found !\n";
+		cout << "File condutores.txt nao encontrado !\n";
 		return 1;
 	}
 
@@ -65,7 +65,7 @@ int main(void)
 
 	drivers_file.close();
 
-	while (answer != 8)
+	while (answer != 6)
 	{
 		main_menu();
 
@@ -93,9 +93,11 @@ int main(void)
 			timeTable(traffic_network);
 			system("clear");
 			break;
-
-		case 8:
+		case 6:
 			continue;
+		default:
+			cout << "Opcao invalida!\n";
+			break;
 		}
 	}
 
@@ -108,50 +110,46 @@ void main_menu()
 {
 	cout << internal << setw(30) << "Semprarrolar - Transportadora" << endl;
 
-	cout << "1 - Show all lines\n";
+	cout << "1 - Mostrar todas as linhas\n";
 
-	cout << "2 - Show all drivers\n";
+	cout << "2 - Mostrar todos os condutores\n";
 
-	cout << "3 - Manage drivers\n";
+	cout << "3 - Gerir condutores\n";
 
-	cout << "4 - Manage lines\n";
+	cout << "4 - Gerir linhas\n";
 
 	cout << "5 - Horários\n";
 
-	cout << "6 - Plan trip\n";
-
-	cout << "7 - Show necessary drivers for a line workload\n";
-
-	cout << "8 - Leave\n";
+	cout << "6 - Sair\n";
 }
 
 void manage_drivers_menu()
 {
 	system("clear");
 
-	cout << "1 - Edit an existing driver\n";
+	cout << "1 - Editar um motorista existente\n";
 
-	cout << "2 - Create new driver\n";
+	cout << "2 - Inserir um novo motorista\n";
 
-	cout << "3 - Leave\n";
+	cout << "3 - Sair\n";
 }
 
 void manage_lines_menu()
 {
 	system("clear");
 
-	cout << "1 - Edit an existing line\n";
+	cout << "1 - Editar uma linha existente\n";
 
-	cout << "2 - Create new line\n";
+	cout << "2 - Inserir uma nova linha\n";
 
-	cout << "3 - Leave\n";
+	cout << "3 - Sair\n";
 }
 
 void edit_driver_menu()
 {
 	cout << "1 - Nome\n2 - Identificador\n3 - Horas que pode trabalhar por dia\n4 - Horas que pode trabalhar por semana\n5 - Horas de descanso\n";
 
-  cout << "O que pretende alterar? <Resp (espaco) nova_informacao\n";
+  cout << "O que pretende alterar? <Resp ('-') nova_informacao\n";
 }
 
 void edit_line_menu()
@@ -172,5 +170,5 @@ void TimeTable_menu()
 
 	cout << "2 - Ver horário duma paragem\n";
 
-	cout << "3 - Leave\n";
+	cout << "3 - Sair\n";
 }

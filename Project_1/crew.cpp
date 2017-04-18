@@ -11,6 +11,8 @@
 #include "text_manipulation.h"
 #include "crew.h"
 
+bool alteracao;
+
 using namespace std;
 
 int search_for_driver_id(vector<driver> &a, int id)
@@ -107,12 +109,12 @@ void show_all_drivers(vector<driver> a)
 
 	char c = 'n';
 
-	while (c != 'y' && c != 'Y')
+	while (c != 's' && c != 'S')
 	{
 		for (int i = 0; i < (int)a.size(); i++)
 			driver_info(a[i]);
 
-		cout << "Leave? (y/n)\n";
+		cout << "Leave? (s/n)\n";
 
 		cin >> c;
 	}
@@ -152,14 +154,14 @@ void edit_drivers_data(vector<driver> &a)
 
   if(x == -1) //in case it hasn t found any driver with the ID inserted by the user
   {
-    while(c != 'y' && c != 'Y' && c!= 'n' && c != 'N')
+    while(c != 's' && c != 'S' && c!= 'n' && c != 'N')
     {
       cout << "Nao foi encontrado nenhum condutor, pretende inserir um? (y/n)\n";
 
       cin >> c;
     }
 
-    if(c == 'y' || c == 'Y')
+    if(c == 's' || c == 'S')
       verbose_inserte_to_drivers_data(a);
     else
       return;
@@ -184,24 +186,32 @@ void edit_drivers_data(vector<driver> &a)
     case 1:
       a[x].name.clear();
       a[x].name.assign(resp[1]);
+			alteracao = true;
       break;
     case 2:
       if(search_for_driver_id(a, stoi(resp[1])) == -1)
-        a[x].identifier = stoi(resp[1]);
+			{
+				a[x].identifier = stoi(resp[1]);
+				alteracao = true;
+			}
       else
         printf("Esse identificador ja existe!\n");
       break;
     case 3:
       a[x].hours_p_day = stoi(resp[1]);
+			alteracao = true;
       break;
     case 4:
       a[x].hours_p_week = stoi(resp[1]);
+			alteracao = true;
       break;
     case 5:
       a[x].rest_hours = stoi(resp[1]);
+			alteracao = true;
       break;
     default:
       printf("Opcao invalida\n");
+			alteracao = false;
       break;
   }
 }
@@ -244,5 +254,10 @@ void manage_drivers(vector<driver> &v_driver)
         break;
     }
   }
-  update_drivers_file(v_driver);
+	if(alteracao)
+	{
+		update_drivers_file(v_driver);
+		cout << "Ficheiro atualizado!\n";
+		alteracao = false;
+	}
 }
