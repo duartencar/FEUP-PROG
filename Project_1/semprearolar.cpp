@@ -20,7 +20,7 @@ void edit_line_menu();
 void TimeTable_menu();
 
 int main(void)
-{ /**************VARIABLES DECLARATION***************/
+{  /**************VARIABLES DECLARATION***************/
 
 	ifstream lines_file, drivers_file;
 
