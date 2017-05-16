@@ -156,7 +156,7 @@ bool addDriver (Company &Enterprise)
 
   toInsert.append(resp);
 
-  toInsert.append(";");
+  toInsert.append(" ; ");
 
   /*GET ID*/
 
@@ -173,7 +173,7 @@ bool addDriver (Company &Enterprise)
 
   toInsert.append(resp);
 
-  toInsert.append(";");
+  toInsert.append(" ; ");
 
   /*GET NAME*/
 
@@ -194,7 +194,7 @@ bool addDriver (Company &Enterprise)
 
   toInsert.append(resp);
 
-  toInsert.append(";");
+  toInsert.append(" ; ");
 
   /*GET SHIFT MAX DURATION*/
 
@@ -215,7 +215,7 @@ bool addDriver (Company &Enterprise)
 
   toInsert.append(resp);
 
-  toInsert.append(";");
+  toInsert.append(" ; ");
 
   /*GET WEEK MAX WORKLOAD*/
 
