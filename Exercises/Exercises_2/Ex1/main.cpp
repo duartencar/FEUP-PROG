@@ -3,11 +3,9 @@
 
 int main (void)
 {
-  Date a(2017, 5, 16);
+  Date a(2012, 5, 16);
   Date b("2016/02/29");
   Date c;
-
-  c.setDate(2017,5,15);
 
   a.show();
   b.show();
