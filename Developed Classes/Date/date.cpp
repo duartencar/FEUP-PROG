@@ -35,7 +35,7 @@ Date::Date(string yearMonthDay)
   if(fields.size() != 3)
   {
     cerr << "Insira uma data com duas '/'!\n";
-    exit(0);
+    exit(1);
   }
 
   for(auto i = fields.begin(); i != fields.end(); i++)
@@ -43,7 +43,7 @@ Date::Date(string yearMonthDay)
     if(!validAnswer(*i, U_INTEIRO))
     {
       cerr << "Insira numeros separados por '/' (yyyy/mm/dd)!\n";
-      exit(0);
+      exit(1);
     }
   }
 
