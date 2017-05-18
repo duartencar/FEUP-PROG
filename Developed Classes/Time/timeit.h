@@ -20,6 +20,18 @@ class Timeit
     //constructor with string
     Timeit(string rawTime);
 
+    //constructor with all vars
+    Timeit(unsigned int hours, unsigned int min, unsigned int secs, unsigned int milis);
+
+    //returns HorM value
+    bool getHorM() const;
+
+    //sets HormValue to false
+    void setHorM_toFalse();
+
+    //sets HormValue to true
+    void setHorM_toTrue();
+
     //Checks if time in the class is valid
     bool valid() const;
 
@@ -51,10 +63,11 @@ class Timeit
     string getTime();
 
   private:
-    unsigned int hours;
-    unsigned int minutes;
-    unsigned int seconds;
-    unsigned int miliseconds;
+    unsigned int hours;         //Hours value
+    unsigned int minutes;       //Minutes value
+    unsigned int seconds;       //Seconds value
+    unsigned int miliseconds;   //Miliseconds value
+    bool HorM;                  //If true, hours won t be ignored
 };
 
   //returns tokens

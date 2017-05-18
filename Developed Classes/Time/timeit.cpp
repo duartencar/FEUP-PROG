@@ -10,6 +10,7 @@ Timeit::Timeit()
   minutes = 0;
   seconds = 0;
   miliseconds = 0;
+  HorM = true;
 }
 
 Timeit::Timeit(float rawTime)
@@ -42,23 +43,21 @@ Timeit::Timeit(float rawTime)
     seconds = 0;
 
   miliseconds = rawTime * 1000;
+
+  HorM = true;
 }
 
-bool Timeit::valid() const
+Timeit::Timeit(unsigned int hours, unsigned int min, unsigned int secs, unsigned int milis)
 {
-  if(hours < 0 || hours > 99)
-    return false;
+  this->hours = hours;
 
-  if(minutes < 0 || minutes > 60)
-    return false;
+  this->minutes = min;
 
-  if(seconds < 0 || seconds > 60)
-    return false;
+  this->seconds = secs;
 
-  if(miliseconds < 0 || miliseconds > 1000)
-    return false;
+  this->miliseconds = milis;
 
-  return true;
+  this->HorM = true;
 }
 
 Timeit::Timeit(string rawTime)
@@ -111,6 +110,38 @@ Timeit::Timeit(string rawTime)
   }
 }
 
+bool Timeit::getHorM() const
+{
+  return HorM;
+}
+
+void Timeit::setHorM_toFalse()
+{
+  HorM = false;
+}
+
+void Timeit::setHorM_toTrue()
+{
+  HorM = true;
+}
+
+bool Timeit::valid() const
+{
+  if(hours < 0 || hours > 99)
+    return false;
+
+  if(minutes < 0 || minutes > 60)
+    return false;
+
+  if(seconds < 0 || seconds > 60)
+    return false;
+
+  if(miliseconds < 0 || miliseconds > 1000)
+    return false;
+
+  return true;
+}
+
 unsigned int Timeit::getHours() const
 {
   return hours;
@@ -155,8 +186,12 @@ string Timeit::getTime()
 {
   ostringstream outstr;
 
-  outstr << right  << setfill('0') << setw(2) << hours << ":" << setw(2) << minutes \
+  if(getHorM())
+    outstr << right  << setfill('0') << setw(2) << hours << ":" << setw(2) << minutes \
           << ":" << setw(2) << seconds << "." << left << setw(3) << miliseconds;
+  else
+    outstr << right << setfill('0') << setw(2) << minutes << ":" << setw(2) << seconds \
+          << "." << left << setw(3) << miliseconds;
 
   return outstr.str();
 }
