@@ -45,6 +45,13 @@ Timeit::Timeit(float rawTime)
   miliseconds = rawTime * 1000;
 
   HorM = true;
+
+  if(!valid())
+  {
+    cerr << "ERROR: OVERFLOW\n";
+
+    exit(1);
+  }
 }
 
 Timeit::Timeit(unsigned int hours, unsigned int min, unsigned int secs, unsigned int milis)
@@ -58,6 +65,13 @@ Timeit::Timeit(unsigned int hours, unsigned int min, unsigned int secs, unsigned
   this->miliseconds = milis;
 
   this->HorM = true;
+
+  if(!valid())
+  {
+    cerr << "ERROR: OVERFLOW\n";
+
+    exit(1);
+  }
 }
 
 Timeit::Timeit(string rawTime)
@@ -74,6 +88,7 @@ Timeit::Timeit(string rawTime)
   if(Sms.size() != 2)
   {
     cerr << "ERROR: hasn t got '.'" << endl;
+
     exit(1);
   }
 
@@ -110,6 +125,13 @@ Timeit::Timeit(string rawTime)
   }
 
   HorM = true;
+
+  if(!valid())
+  {
+    cerr << "ERROR: OVERFLOW\n";
+
+    exit(1);
+  }
 }
 
 bool Timeit::getHorM() const
