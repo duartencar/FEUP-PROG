@@ -62,7 +62,7 @@ class Date
 };
 
   //returns true if the dates are equal, false if they dont
-  bool operator==(const Date& left, const Date& right);
+  bool operator == (const Date& left, const Date& right);
 
   //returns true if dates are different, false if they dont
   bool operator != (const Date& left, const Date& right);

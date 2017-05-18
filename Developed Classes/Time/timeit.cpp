@@ -108,6 +108,8 @@ Timeit::Timeit(string rawTime)
     cerr << "ERROR: miliseconds value read: " << HmS[1] << endl;
     exit(1);
   }
+
+  HorM = true;
 }
 
 bool Timeit::getHorM() const
@@ -140,6 +142,14 @@ bool Timeit::valid() const
     return false;
 
   return true;
+}
+
+int Timeit::compare(const Timeit& right) const
+{
+  return ((int)this->hours - (int)right.getHours())*3600000
+      +  ((int)this->minutes - (int)right.getMinutes())*60000
+      +  ((int)this->seconds - (int)right.getSeconds())*1000
+      +  ((int)this->miliseconds - (int)right.getMiliSeconds());
 }
 
 unsigned int Timeit::getHours() const
@@ -287,4 +297,28 @@ bool validAnswer(string answer, int type)
   }
 
   return true;
+}
+
+bool operator == (const Timeit& left, const Timeit& right)
+{
+  if(left.compare(right) == 0)
+    return true;
+  else
+    return false;
+}
+
+bool operator > (const Timeit& left, const Timeit& right)
+{
+  if(left.compare(right) > 0)
+    return true;
+  else
+    return false;
+}
+
+bool operator < (const Timeit& left, const Timeit& right)
+{
+  if(left.compare(right) < 0)
+    return true;
+  else
+    return false;
 }

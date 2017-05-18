@@ -35,6 +35,9 @@ class Timeit
     //Checks if time in the class is valid
     bool valid() const;
 
+    //return 0 if equal, <0 if right bigger than this*
+    int compare(const Timeit& right) const;
+
     //returns hours value
     unsigned int getHours() const;
 
@@ -81,3 +84,12 @@ class Timeit
 
   /*Checks if string inserted by user is valid*/
   bool validAnswer(string answer, int type);
+
+  //Returns true if left is equal to right, false if not
+  bool operator == (const Timeit& left, const Timeit& right);
+
+  //Returns true if left total time is more than right
+  bool operator > (const Timeit& left, const Timeit& right);
+
+  //Returns true if left total time is less than right
+  bool operator < (const Timeit& left, const Timeit& right);
