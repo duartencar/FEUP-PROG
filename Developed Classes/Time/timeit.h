@@ -62,6 +62,12 @@ class Timeit
     //changes miliseconds value
     void setMiliSeconds(unsigned int miliseconds);
 
+    //sets all classe members to 0
+    void Reset();
+
+    //Clones to_copy
+    void Copy(const Timeit& to_copy);
+
     //returns a formated string with the hours
     string getTime();
 
@@ -93,3 +99,9 @@ class Timeit
 
   //Returns true if left total time is less than right
   bool operator < (const Timeit& left, const Timeit& right);
+
+  //Copies the value on right, to left
+  void operator << (const Timeit& left, const Timeit& right);
+
+  //Copies the value on left, to right
+  void operator >> (const Timeit& left, const Timeit& right);

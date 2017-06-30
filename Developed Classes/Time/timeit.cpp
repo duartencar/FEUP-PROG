@@ -214,6 +214,30 @@ void Timeit::setMiliSeconds(unsigned int miliseconds)
   this->miliseconds = miliseconds;
 }
 
+void Timeit::Reset()
+{
+  this->hours = 0;
+
+  this->minutes = 0;
+
+  this->seconds = 0;
+
+  this->miliseconds = 0;
+}
+
+void Timeit::Copy(const Timeit& to_copy)
+{
+  this->hours = to_copy.getHours();
+
+  this->minutes = to_copy.getMinutes();
+
+  this->seconds = to_copy.getSeconds();
+
+  this->miliseconds = to_copy.getMiliSeconds();
+
+  this->HorM = to_copy.getHorM();
+}
+
 string Timeit::getTime()
 {
   ostringstream outstr;
@@ -343,4 +367,14 @@ bool operator < (const Timeit& left, const Timeit& right)
     return true;
   else
     return false;
+}
+
+void operator << (const Timeit& left, const Timeit& right)
+{
+  left.Copy(right);
+}
+
+void operator >> (const Timeit& left, const Timeit& right)
+{
+  right.Copy(left);
 }
