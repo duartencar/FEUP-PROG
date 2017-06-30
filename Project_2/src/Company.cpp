@@ -276,13 +276,14 @@ void Company::removeLine(int i)
 
 void Company::printLineToFile()
 {
-  int k;
   ofstream file;
-  cin.clear();
-  cin.ignore(10000,'\n');
   string myString;
+  vector<string> b;
+  vector<int> t;
 
   cout << "Escolha o nome do ficheiro(.txt): ";
+
+  cin.ignore();
 
   while(1)
   {
@@ -296,28 +297,35 @@ void Company::printLineToFile()
     cout << "Introduza novamente o nome do ficheiro: ";
   }
 
-  for(int i = 0; i < (int)linhas.size();i++)
+  for(vector<Line>::iterator i = linhas.begin(); i != linhas.end(); i++)
   {
-    file << linhas.at(i).getId();
-    file << " ; ";
-    file << linhas.at(i).getFreq();
+    b = (*i).getBusStops();
+
+    t = (*i).getTimings();
+
+    file << (*i).getId();
+
     file << " ; ";
 
-    for (k = 0; k < (int)linhas.at(i).getBusStops().size();k++)
+    file << (*i).getFreq();
+
+    file << " ; ";
+
+    for (vector<string>::iterator k = b.begin(); k != b.end(); k++)
     {
-      file << linhas.at(i).getBusStops().at(k);
+      file << (*k);
 
-      if (k == (int)linhas.at(i).getBusStops().size()-1)
+      if (k == b.end())
         file << " ; ";
       else
         file << ", ";
     }
 
-    for (k=0; k < (int) linhas.at(i).getTimings().size();k++)
+    for (vector<int>::iterator k = t.begin(); k != t.end(); k++)
     {
-      file << linhas.at(i).getTimings().at(k);
+      file << (*k);
 
-      if (k != (int)linhas.at(i).getTimings().size()-1)
+      if (k != t.end())
         file << ", ";
     }
 
@@ -330,11 +338,11 @@ void Company::printLineToFile()
 void Company::printDiverToFile()
 {
   ofstream file;
-  cin.clear();
-  cin.ignore(1000,'\n');
   string myString;
 
   cout << "Escolha o nome do ficheiro(.txt): ";
+
+  cin.ignore();
 
   while(1)
   {
@@ -348,17 +356,17 @@ void Company::printDiverToFile()
     cout << "Introduza novamente o nome do ficheiro: ";
   }
 
-  for (int i=0; i < (int)condutores.size(); i++)
+  for (vector<Driver>::iterator i = condutores.begin(); i != condutores.end(); i++)
   {
-    file << condutores.at(i).getId();
+    file << (*i).getId();
     file << " ; ";
-    file << condutores.at(i).getName();
+    file << (*i).getName();
     file << " ; ";
-    file << condutores.at(i).getShiftMaxDuration();
+    file << (*i).getShiftMaxDuration();
     file << " ; ";
-    file << condutores.at(i).getMaxWeekWorkingTime();
+    file << (*i).getMaxWeekWorkingTime();
     file << " ; ";
-    file << condutores.at(i).getMinRestTime();
+    file << (*i).getMinRestTime();
     file << endl;
   }
 

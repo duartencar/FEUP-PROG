@@ -444,7 +444,6 @@ bool addLine(Company &Enterprise)
   Line myLine;
   string myString;
 
-
   system("clear");
 
   cout << "Insira -1 a qualquer momento para parar inserção\n\n";

@@ -177,6 +177,7 @@ unsigned int Line::totalTime(size_t stop, int way)
         for(size_t i = timesList.size() - 1; i >= stop; i--)
         {
           sum += timesList[i];
+
           if(i == stop)
             break;
         }
@@ -314,17 +315,17 @@ void Line::changeTimesList()
   while(1)
   {
     showTimesList();
+
     cout << "Que tempo alterar (0 para sair)" << endl;
+
     cin >> option;
+
     if(option==0)
-      {
         break;
-      }
 
-      cin >> timesList.at(option-1);
+    cin >> timesList.at(option-1);
 
-
-      system("clear");
+    system("clear");
   }
   system("clear");
 }
